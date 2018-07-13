@@ -8,7 +8,7 @@ use SplQueue;
 /**
  * The core implementation of the event dispatcher.
  */
-class CoreDispatcher implements Dispatcher
+class CoreDispatcher implements EventDispatcher
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -53,7 +53,7 @@ class CoreDispatcher implements Dispatcher
       foreach ($handlers as $handler)
       {
         $class = $handler['ael_class'];
-        /** @var Handler $object */
+        /** @var EventHandler $object */
         $object = new $class();
         $object->handle($event);
       }
