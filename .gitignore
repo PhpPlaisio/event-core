@@ -1,0 +1,10 @@
+/.idea/
+/bin/
+/doc/
+/vendor/
+/composer.lock
+/test/etc/columns.txt
+/test/etc/routines.json
+/test/TestDataLayer.php
+/test/report/
+/test/coverage.xml

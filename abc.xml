@@ -1,0 +1,15 @@
+<abc>
+    <database>
+        <requires>
+            <table>ABC_AUTH_COMPANY</table>
+        </requires>
+        <scripts>
+            <script>lib/ddl/0100_create_tables.sql</script>
+        </scripts>
+    </database>
+    <stratum>
+        <includes>
+            <include>lib/psql/**/*.psql</include>
+        </includes>
+    </stratum>
+</abc>

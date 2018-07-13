@@ -1,0 +1,34 @@
+{
+  "name": "setbased/abc-event-core",
+  "description": "ABC-Framework: Core Event",
+  "keywords": [
+    "ABC-Framework",
+    "Core",
+    "Event"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1.0",
+    "setbased/abc": "*",
+    "setbased/abc-event": "*"
+  },
+  "require-dev": {
+    "phing/phing": "^2.0.0",
+    "phpunit/phpunit": "^6.0.0",
+    "setbased/php-stratum": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "SetBased\\Abc\\Event\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SetBased\\Abc\\Event\\Test\\": "test/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}
