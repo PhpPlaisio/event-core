@@ -8,7 +8,7 @@ use SplQueue;
 /**
  * The core implementation of the event dispatcher.
  */
-class CoreDispatcher implements EventDispatcher
+class CoreEventDispatcher implements EventDispatcher
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
