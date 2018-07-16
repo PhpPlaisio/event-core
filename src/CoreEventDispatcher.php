@@ -3,7 +3,6 @@
 namespace SetBased\Abc\Event;
 
 use SetBased\Abc\Abc;
-use SplQueue;
 
 /**
  * The core implementation of the event dispatcher.
@@ -21,7 +20,7 @@ class CoreEventDispatcher implements EventDispatcher
   /**
    * The event queue.
    *
-   * @var SplQueue
+   * @var \SplQueue
    */
   private $queue;
 
@@ -32,7 +31,7 @@ class CoreEventDispatcher implements EventDispatcher
   public function __construct()
   {
     $this->isRunning = false;
-    $this->queue     = new SplQueue();
+    $this->queue     = new \SplQueue();
   }
 
   //--------------------------------------------------------------------------------------------------------------------
