@@ -63,7 +63,7 @@ abstract class CoreEventDispatcher implements EventDispatcher
     while (!$this->queue->isEmpty())
     {
       $event    = $this->queue->dequeue();
-      $handlers = self::$notifyHandlers[get_class($event)] ?? [];
+      $handlers = static::$notifyHandlers[get_class($event)] ?? [];
       foreach ($handlers as $handler)
       {
         list($callable, $cmpId) = $handler;
@@ -87,7 +87,7 @@ abstract class CoreEventDispatcher implements EventDispatcher
    */
   public function modify($event)
   {
-    $handlers = self::$modifyHandlers[get_class($event)] ?? [];
+    $handlers = static::$modifyHandlers[get_class($event)] ?? [];
     foreach ($handlers as $handler)
     {
       list($callable, $cmpId) = $handler;
