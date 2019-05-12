@@ -1,15 +1,30 @@
 <?php
+declare(strict_types=1);
 
 namespace SetBased\Abc\Event;
 
 use SetBased\Abc\Abc;
 
 /**
- * The core implementation of the event dispatcher.
+ * The core abstract implementation of the event dispatcher.
  */
-class CoreEventDispatcher implements EventDispatcher
+abstract class CoreEventDispatcher implements EventDispatcher
 {
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * The modify event handlers.
+   *
+   * @var array[]|null
+   */
+  protected static $modifyHandlers;
+
+  /**
+   * The notify event handlers.
+   *
+   * @var array[]|null
+   */
+  protected static $notifyHandlers;
+
   /**
    * True if ans only if this dispatcher is dispatching events.
    *
@@ -48,13 +63,14 @@ class CoreEventDispatcher implements EventDispatcher
     while (!$this->queue->isEmpty())
     {
       $event    = $this->queue->dequeue();
-      $handlers = Abc::$DL::abcEventCoreGetHandlers(Abc::$companyResolver->getCmpId(), $event->getId());
+      $handlers = self::$notifyHandlers[get_class($event)] ?? [];
       foreach ($handlers as $handler)
       {
-        $class = $handler['ael_class'];
-        /** @var EventHandler $object */
-        $object = new $class();
-        $object->handle($event);
+        list($callable, $cmpId) = $handler;
+        if ($cmpId===null || $cmpId==Abc::$companyResolver->getCmpId())
+        {
+          $callable($event);
+        }
       }
     }
 
@@ -63,24 +79,34 @@ class CoreEventDispatcher implements EventDispatcher
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Provides all listeners with an event to modify.
+   * Applies all listeners with an event to modify.
    *
-   * @param Event $event The event to modify.
+   * @param object $event The event to modify.
    *
-   * @return Event The event that was passed, now modified by callers.
+   * @return object The event that was passed, now modified by callers.
    */
-  public function modify(Event $event): Event
+  public function modify($event)
   {
-    throw new \LogicException('Not implemented');
+    $handlers = self::$modifyHandlers[get_class($event)] ?? [];
+    foreach ($handlers as $handler)
+    {
+      list($callable, $cmpId) = $handler;
+      if ($cmpId===null || $cmpId==Abc::$companyResolver->getCmpId())
+      {
+        $callable($event);
+      }
+    }
+
+    return $event;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Queues an event.
    *
-   * @param Event $event The event.
+   * @param object $event The event.
    */
-  public function notify(Event $event): void
+  public function notify($event): void
   {
     $this->queue->enqueue($event);
   }
