@@ -37,6 +37,7 @@ class EventHandlerMetadataExtractor
   private $io;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * EventHandlerMetadataExtractor constructor.
    *
@@ -77,6 +78,8 @@ class EventHandlerMetadataExtractor
    * @param array $agent2 The second agent.
    *
    * @return int
+   *
+   * @throws \ReflectionException
    */
   public static function compareAgents(array $agent1, array $agent2): int
   {
@@ -89,6 +92,32 @@ class EventHandlerMetadataExtractor
     if ($agent1['class']==$agent2['class']) return 0;
 
     return ($agent1['class']<$agent2['class']) ? -1 : 1;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Returns a Graph with all event handlers.
+   *
+   * @param array $handlers The event handlers.
+   *
+   * @return Graph
+   */
+  private static function createGraph(array $handlers): Graph
+  {
+    $graph = new Graph();
+    foreach ($handlers as $handler)
+    {
+      foreach ($handler['before'] as $child)
+      {
+        $graph->addEdge(sprintf('%s::%s', $handler['class'], $handler['method']), $child);
+      }
+      foreach ($handler['after'] as $parent)
+      {
+        $graph->addEdge($parent, sprintf('%s::%s', $handler['class'], $handler['method']));
+      }
+    }
+
+    return $graph;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -183,6 +212,8 @@ class EventHandlerMetadataExtractor
 
     return $ret;
   }
+
+  //--------------------------------------------------------------------------------------------------------------------
   /**
    * Cleans a (before or after) dependency and validates the handler exists.
    *
@@ -192,41 +223,56 @@ class EventHandlerMetadataExtractor
    */
   private function cleanDependency(string $handler): string
   {
-    [$class, $method] = self::extractClassMethod($handler);
-
-    $reflectionClass = new \ReflectionClass($class);
-    if (!$reflectionClass->hasMethod($method))
+    try
     {
-      throw new MetadataExtractorException("Class '%s' does not have method '%s'.", $class, $method);
+      [$class, $method] = self::extractClassMethod($handler);
+
+      $reflectionClass = new \ReflectionClass($class);
+      if (!$reflectionClass->hasMethod($method))
+      {
+        throw new MetadataExtractorException("Class '%s' does not have method '%s'.", $class, $method);
+      }
+
+      $reflectionMethod = $reflectionClass->getMethod($method);
+
+      return sprintf('%s::%s', $reflectionClass->getName(), $reflectionMethod->getName());
     }
-
-    $reflectionMethod = $reflectionClass->getMethod($method);
-
-    return sprintf('%s::%s', $reflectionClass->getName(), $reflectionMethod->getName());
+    catch (\ReflectionException $exception)
+    {
+      throw new MetadataExtractorException([$exception], "Caught reflection exception '%s.", $exception->getMessage());
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * @param array $handlers
+   * Extract the company for which the event handler is limited to if any.
    *
-   * @return Graph
+   * @param \ReflectionMethod $reflectionMethod The reflection of the method.
+   *
+   * @return string|null
    */
-  private function createGraph(array $handlers): Graph
+  private function extractCompany(\ReflectionMethod $reflectionMethod): ?string
   {
-    $graph = new Graph();
-    foreach ($handlers as $handler)
+    $comment = $reflectionMethod->getDocComment();
+
+    $pattern = "/@onlyForCompany\s*(.+)/";
+    preg_match_all($pattern, $comment, $matches, PREG_SET_ORDER);
+
+    switch (true)
     {
-      foreach ($handler['before'] as $child)
-      {
-        $graph->addEdge(sprintf('%s::%s', $handler['class'], $handler['method']), $child);
-      }
-      foreach ($handler['after'] as $parent)
-      {
-        $graph->addEdge($parent, sprintf('%s::%s', $handler['class'], $handler['method']));
-      }
+      case empty($matches):
+        $onlyForCompany = null;
+        break;
+
+      case sizeof($matches)==1:
+        $onlyForCompany = $matches[0][1];
+        break;
+
+      default:
+        throw new MetadataExtractorException('Found multiple @onlyForCompany annotations. Expected none or only one @onlyForCompany annotation.');
     }
 
-    return $graph;
+    return $onlyForCompany;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -283,7 +329,7 @@ class EventHandlerMetadataExtractor
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the class of the event of a method that is an event handler.
+   * Returns the metadata of a method that is an event handler.
    *
    * @param \ReflectionClass $reflectionClass The reflection class.
    * @param string           $method          The name of the method.
@@ -309,13 +355,15 @@ class EventHandlerMetadataExtractor
     }
 
     [$before, $after] = $this->extractDependencies($reflectionMethod);
+    $onlyForCompany = $this->extractCompany($reflectionMethod);
 
-    return ['event'  => $event,
-            'class'  => $reflectionClass->getName(),
-            'method' => $method,
-            'before' => $before,
-            'after'  => $after,
-            'depth'  => 0];
+    return ['event'           => $event,
+            'class'           => $reflectionClass->getName(),
+            'method'          => $method,
+            'before'          => $before,
+            'after'           => $after,
+            'only_or_company' => $onlyForCompany,
+            'depth'           => 0];
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -372,7 +420,7 @@ class EventHandlerMetadataExtractor
   {
     foreach ($events as $event => &$handlers)
     {
-      $graph  = $this->createGraph($handlers);
+      $graph  = self::createGraph($handlers);
       $depths = $graph->depth();
       foreach ($handlers as &$handler)
       {
@@ -484,7 +532,7 @@ class EventHandlerMetadataExtractor
    */
   private function validateHandlersPass2(array $handlers, string $event): void
   {
-    $graph = $this->createGraph($handlers);
+    $graph = self::createGraph($handlers);
 
     if ($graph->isCyclic($cycle))
     {

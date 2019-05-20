@@ -119,7 +119,7 @@ class EventDispatcherCodeGenerator
     $first = true;
     foreach ($handlers as $handler)
     {
-      $line = sprintf("['%s::%s', %s]", $handler['class'], $handler['method'], 'null');
+      $line = sprintf("['%s::%s', %s]", $handler['class'], $handler['method'], $handler['only_or_company']);
       if ($first)
       {
         $this->store->appendToLastLine($line);
