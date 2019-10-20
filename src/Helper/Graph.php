@@ -70,11 +70,11 @@ class Graph
   /**
    * Return true if the graph has one or more cycles.
    *
-   * @param string|null $cycle On return a found cycle if any.
+   * @param string[]|null $cycle On return a found cycle if any.
    *
    * @return bool
    */
-  public function isCyclic(?string &$cycle = null): bool
+  public function isCyclic(?array &$cycle = null): bool
   {
     $visited   = [];
     $recursion = [];
