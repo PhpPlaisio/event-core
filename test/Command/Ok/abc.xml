@@ -1,0 +1,14 @@
+<abc>
+    <event>
+        <dispatcher>
+            <class>SetBased\Abc\Event\Test\Command\Ok\EventDispatcher</class>
+            <path>test/Command/Ok/EventDispatcher.php</path>
+        </dispatcher>
+        <notify>
+            <handler>\SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle1</handler>
+            <handler>\SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle2</handler>
+            <handler>\SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle3</handler>
+            <handler>\SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle4</handler>
+        </notify>
+    </event>
+</abc>

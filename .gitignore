@@ -1,6 +1,7 @@
 /.idea/
 /.phpunit.result.cache
 /bin/
+/test/Command/Ok/EventDispatcher.php
 /test/coverage.xml
 /test/etc/routines.json
 /test/etc/stratum.ini

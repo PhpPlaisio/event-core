@@ -37,7 +37,6 @@ class EventHandlerMetadataExtractor
   private $io;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * EventHandlerMetadataExtractor constructor.
    *
@@ -68,30 +67,6 @@ class EventHandlerMetadataExtractor
     }
 
     return ($handler1['depth']<$handler2['depth']) ? -1 : 1;
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Compares two handlers.
-   *
-   * @param array $agent1 The first agent.
-   * @param array $agent2 The second agent.
-   *
-   * @return int
-   *
-   * @throws \ReflectionException
-   */
-  public static function compareAgents(array $agent1, array $agent2): int
-  {
-    $reflection1 = new \ReflectionClass($agent1['type']);
-    $reflection2 = new \ReflectionClass($agent2['type']);
-
-    if ($reflection1->isSubclassOf($agent2['type'])) return -1;
-    if ($reflection2->isSubclassOf($agent1['type'])) return 1;
-
-    if ($agent1['class']==$agent2['class']) return 0;
-
-    return ($agent1['class']<$agent2['class']) ? -1 : 1;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -203,8 +178,6 @@ class EventHandlerMetadataExtractor
         $this->errorCount++;
       }
     }
-    $this->noErrors();
-
     $this->validateHandlers($ret);
     $this->noErrors();
 
@@ -269,7 +242,7 @@ class EventHandlerMetadataExtractor
         break;
 
       default:
-        throw new MetadataExtractorException('Found multiple @onlyForCompany annotations. Expected none or only one @onlyForCompany annotation.');
+        throw new MetadataExtractorException('Found multiple @onlyForCompany annotations. Expected non or only one @onlyForCompany annotation.');
     }
 
     return $onlyForCompany;
@@ -347,23 +320,24 @@ class EventHandlerMetadataExtractor
     $arguments = $reflectionMethod->getParameters();
     $argument  = $arguments[0];
 
-    $event = $argument->getClass()->getName();
-    if ($event===null)
+    $class = $argument->getClass();
+    if ($class===null)
     {
       throw new MetadataExtractorException("Argument of event handler '%s' must be a class.",
                                            $reflectionClass->getName().'::'.$method);
     }
+    $event = $class->getName();
 
     [$before, $after] = $this->extractDependencies($reflectionMethod);
     $onlyForCompany = $this->extractCompany($reflectionMethod);
 
-    return ['event'           => $event,
-            'class'           => $reflectionClass->getName(),
-            'method'          => $method,
-            'before'          => $before,
-            'after'           => $after,
-            'only_or_company' => $onlyForCompany,
-            'depth'           => 0];
+    return ['event'            => $event,
+            'class'            => $reflectionClass->getName(),
+            'method'           => $method,
+            'before'           => $before,
+            'after'            => $after,
+            'only_for_company' => $onlyForCompany,
+            'depth'            => 0];
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -391,9 +365,9 @@ class EventHandlerMetadataExtractor
     $composer   = Factory::create(new BufferIO());
     $abcXmlList = AbcXmlHelper::getAbcXmlOfInstalledPackages($composer);
 
-    if (is_file('abc.xml'))
+    if (is_file($this->configFilename))
     {
-      $abcXmlList[] = 'abc.xml';
+      $abcXmlList[] = $this->configFilename;
     }
 
     $handlers = [];

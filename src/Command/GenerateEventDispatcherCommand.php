@@ -5,6 +5,7 @@ namespace SetBased\Abc\Event\Command;
 
 use Composer\IO\ConsoleIO;
 use SetBased\Abc\Console\Style\AbcStyle;
+use SetBased\Abc\Event\Exception\MetadataExtractorException;
 use SetBased\Abc\Event\Helper\AbcXmlHelper;
 use SetBased\Abc\Event\Helper\EventDispatcherCodeGenerator;
 use SetBased\Abc\Event\Helper\EventHandlerMetadataExtractor;
@@ -51,20 +52,31 @@ class GenerateEventDispatcherCommand extends Command
    */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    $this->io        = new AbcStyle($input, $output);
-    $this->consoleIo = new ConsoleIO($input, $output, $this->getHelperSet());
+    try
+    {
+      $this->io        = new AbcStyle($input, $output);
+      $this->consoleIo = new ConsoleIO($input, $output, $this->getHelperSet());
 
-    $metadataExtractor = new EventHandlerMetadataExtractor($this->io, $input->getArgument('config file'));
-    $modifyHandlers    = $metadataExtractor->extractEventHandlers('modify');
-    $notifyHandlers    = $metadataExtractor->extractEventHandlers('notify');
+      $metadataExtractor = new EventHandlerMetadataExtractor($this->io, $input->getArgument('config file'));
+      $modifyHandlers    = $metadataExtractor->extractEventHandlers('modify');
+      $notifyHandlers    = $metadataExtractor->extractEventHandlers('notify');
 
-    $xmlHelper = new AbcXmlHelper($input->getArgument('config file'));
-    [$class, $path] = $xmlHelper->extractEventDispatcherClass();
+      $xmlHelper = new AbcXmlHelper($input->getArgument('config file'));
+      [$class, $path] = $xmlHelper->extractEventDispatcherClass();
 
-    $generator = new EventDispatcherCodeGenerator();
-    $code      = $generator->generateCode($class, $modifyHandlers, $notifyHandlers);
+      $generator = new EventDispatcherCodeGenerator();
+      $code      = $generator->generateCode($class, $modifyHandlers, $notifyHandlers);
 
-    $this->writeTwoPhases($path, $code);
+      $this->writeTwoPhases($path, $code);
+    }
+    catch (MetadataExtractorException $exception)
+    {
+      $this->io->error($exception->getMessage());
+
+      return -1;
+    }
+
+    return 0;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
