@@ -44,7 +44,7 @@ class Graph
    */
   public function addEdge(string $from, string $to): void
   {
-    if (!empty($this->edges[$from])) $this->edges[$from] = [];
+    if (empty($this->edges[$from])) $this->edges[$from] = [];
 
     $this->edges[$from][] = $to;
   }
@@ -60,7 +60,7 @@ class Graph
     $depths = [];
     foreach ($this->edges as $parent => $child)
     {
-      $this->depthHelper(0, $parent, $depths);
+      $this->depthHelper($depths[$parent] ?? 0, $parent, $depths);
     }
 
     return $depths;
