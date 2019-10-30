@@ -21,7 +21,7 @@ class GenerateEventDispatcherCommandTest extends TestCase
    */
   public function setUp(): void
   {
-    $_ENV['COLUMNS'] = 100;
+    putenv('COLUMNS=100');
   }
 
   //--------------------------------------------------------------------------------------------------------------------
