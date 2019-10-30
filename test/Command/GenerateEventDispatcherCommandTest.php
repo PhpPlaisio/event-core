@@ -17,6 +17,15 @@ class GenerateEventDispatcherCommandTest extends TestCase
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * @inheritDoc
+   */
+  public function setUp(): void
+  {
+    $_ENV['COLUMNS'] = 100;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Test cycle detection.
    */
   public function testCycle(): void
@@ -27,6 +36,7 @@ class GenerateEventDispatcherCommandTest extends TestCase
     /** @var GenerateEventDispatcherCommand $command */
     $command       = $application->find('abc:generate-core-event-dispatcher');
     $commandTester = new CommandTester($command);
+
     $commandTester->execute(['command'     => $command->getName(),
                              'config file' => __DIR__.'/Cycle/abc.xml']);
 
@@ -34,6 +44,8 @@ class GenerateEventDispatcherCommandTest extends TestCase
     self::assertEquals(-1, $ret);
 
     $output = $commandTester->getDisplay();
+    $output = preg_replace('/\s+/', ' ', $output);
+    $output = str_replace("'", '', $output);
     self::assertStringContainsString('Found cycle:', $output);
     self::assertStringContainsString("Event handlers for ".CycleEvent::class." are cyclic", $output);
   }
