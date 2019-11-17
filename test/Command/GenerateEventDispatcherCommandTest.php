@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\Command;
+namespace Plaisio\Event\Test\Command;
 
 use PHPUnit\Framework\TestCase;
-use SetBased\Abc\Event\Command\GenerateEventDispatcherCommand;
-use SetBased\Abc\Event\Test\Command\Cycle\CycleEvent;
-use SetBased\Abc\Event\Test\Command\WrongHandlers\WrongEventHandler;
+use Plaisio\Event\Command\GenerateEventDispatcherCommand;
+use Plaisio\Event\Test\Command\Cycle\CycleEvent;
+use Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -34,11 +34,11 @@ class GenerateEventDispatcherCommandTest extends TestCase
     $application->add(new GenerateEventDispatcherCommand());
 
     /** @var GenerateEventDispatcherCommand $command */
-    $command       = $application->find('abc:generate-core-event-dispatcher');
+    $command       = $application->find('plaisio:generate-core-event-dispatcher');
     $commandTester = new CommandTester($command);
 
     $commandTester->execute(['command'     => $command->getName(),
-                             'config file' => __DIR__.'/Cycle/abc.xml']);
+                             'config file' => __DIR__.'/Cycle/plaisio.xml']);
 
     $ret = $commandTester->getStatusCode();
     self::assertEquals(-1, $ret);
@@ -62,11 +62,11 @@ class GenerateEventDispatcherCommandTest extends TestCase
     @unlink(__DIR__.'/Ok/EventDispatcher.php');
 
     /** @var GenerateEventDispatcherCommand $command */
-    $command       = $application->find('abc:generate-core-event-dispatcher');
+    $command       = $application->find('plaisio:generate-core-event-dispatcher');
     $commandTester = new CommandTester($command);
 
     $commandTester->execute(['command'     => $command->getName(),
-                             'config file' => __DIR__.'/Ok/abc.xml']);
+                             'config file' => __DIR__.'/Ok/plaisio.xml']);
 
     $ret = $commandTester->getStatusCode();
     self::assertEquals(0, $ret);
@@ -75,7 +75,7 @@ class GenerateEventDispatcherCommandTest extends TestCase
     self::assertStringContainsString('Wrote test/Command/Ok/EventDispatcher.php', $output);
 
     $commandTester->execute(['command'     => $command->getName(),
-                             'config file' => __DIR__.'/Ok/abc.xml']);
+                             'config file' => __DIR__.'/Ok/plaisio.xml']);
 
     $ret = $commandTester->getStatusCode();
     self::assertEquals(0, $ret);
@@ -96,10 +96,10 @@ class GenerateEventDispatcherCommandTest extends TestCase
     $application->add(new GenerateEventDispatcherCommand());
 
     /** @var GenerateEventDispatcherCommand $command */
-    $command       = $application->find('abc:generate-core-event-dispatcher');
+    $command       = $application->find('plaisio:generate-core-event-dispatcher');
     $commandTester = new CommandTester($command);
     $commandTester->execute(['command'     => $command->getName(),
-                             'config file' => __DIR__.'/WrongHandlers/abc.xml']);
+                             'config file' => __DIR__.'/WrongHandlers/plaisio.xml']);
 
     $ret = $commandTester->getStatusCode();
     self::assertEquals(-1, $ret);

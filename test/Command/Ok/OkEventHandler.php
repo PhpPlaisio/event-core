@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\Command\Ok;
+namespace Plaisio\Event\Test\Command\Ok;
 
 /**
  * An empty event handler.
@@ -14,7 +14,7 @@ abstract class OkEventHandler
    *
    * @param OkEvent1 $event The event.
    *
-   * @before \SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle2
+   * @before \Plaisio\Event\Test\Command\Ok\OkEventHandler::handle2
    */
   public static function handle1(OkEvent1 $event): void
   {
@@ -26,8 +26,8 @@ abstract class OkEventHandler
    *
    * @param OkEvent1 $event The event.
    *
-   * @before \SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle3
-   * @after \SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle1
+   * @before \Plaisio\Event\Test\Command\Ok\OkEventHandler::handle3
+   * @after \Plaisio\Event\Test\Command\Ok\OkEventHandler::handle1
    *
    * @onlyForCompany 1
    */
@@ -41,7 +41,7 @@ abstract class OkEventHandler
    *
    * @param OkEvent1 $event The event.
    *
-   * @after \SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle2
+   * @after \Plaisio\Event\Test\Command\Ok\OkEventHandler::handle2
    */
   public static function handle3(OkEvent1 $event): void
   {

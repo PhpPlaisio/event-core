@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event;
+namespace Plaisio\Event;
 
-use SetBased\Abc\Abc;
+use Plaisio\Kernel\Nub;
 
 /**
  * The core abstract implementation of the event dispatcher.
@@ -67,7 +67,7 @@ abstract class CoreEventDispatcher implements EventDispatcher
       foreach ($handlers as $handler)
       {
         list($callable, $cmpId) = $handler;
-        if ($cmpId===null || $cmpId==Abc::$companyResolver->getCmpId())
+        if ($cmpId===null || $cmpId==Nub::$companyResolver->getCmpId())
         {
           $callable($event);
         }
@@ -91,7 +91,7 @@ abstract class CoreEventDispatcher implements EventDispatcher
     foreach ($handlers as $handler)
     {
       list($callable, $cmpId) = $handler;
-      if ($cmpId===null || $cmpId==Abc::$companyResolver->getCmpId())
+      if ($cmpId===null || $cmpId==Nub::$companyResolver->getCmpId())
       {
         $callable($event);
       }

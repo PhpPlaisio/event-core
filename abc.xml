@@ -1,5 +1,0 @@
-<abc>
-    <commands>
-        <command name="abc:generate-core-event-dispatcher">\SetBased\Abc\Event\Command\GenerateEventDispatcherCommand</command>
-    </commands>
-</abc>

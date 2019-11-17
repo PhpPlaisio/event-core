@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Helper;
+namespace Plaisio\Event\Helper;
 
 use Composer\Factory;
 use Composer\IO\BufferIO;
-use SetBased\Abc\Console\Style\AbcStyle;
-use SetBased\Abc\Event\Exception\MetadataExtractorException;
+use Plaisio\Console\Style\PlaisioStyle;
+use Plaisio\Event\Exception\MetadataExtractorException;
 use SetBased\Exception\FallenException;
 
 /**
@@ -16,7 +16,7 @@ class EventHandlerMetadataExtractor
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The path of the abc.xml config file.
+   * The path of the plaisio.xml config file.
    *
    * @var string
    */
@@ -32,7 +32,7 @@ class EventHandlerMetadataExtractor
   /**
    * The output decorator.
    *
-   * @var AbcStyle
+   * @var PlaisioStyle
    */
   private $io;
 
@@ -40,10 +40,10 @@ class EventHandlerMetadataExtractor
   /**
    * EventHandlerMetadataExtractor constructor.
    *
-   * @param AbcStyle $io             The output decorator.
-   * @param string   $configFilename The path of the abc.xml config file.
+   * @param PlaisioStyle $io             The output decorator.
+   * @param string       $configFilename The path of the plaisio.xml config file.
    */
-  public function __construct(AbcStyle $io, string $configFilename)
+  public function __construct(PlaisioStyle $io, string $configFilename)
   {
     $this->io             = $io;
     $this->configFilename = $configFilename;
@@ -140,7 +140,7 @@ class EventHandlerMetadataExtractor
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Extracts event handlers from abc.xml and reflection of classes.
+   * Extracts event handlers from plaisio.xml and reflection of classes.
    *
    * @param string $type The type of event handler: 'modify' or 'notify'.
    *
@@ -354,7 +354,7 @@ class EventHandlerMetadataExtractor
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the event handlers found in the abc.xml files.
+   * Returns the event handlers found in the plaisio.xml files.
    *
    * @param string $type The type of event handler: 'modify' or 'notify'.
    *
@@ -362,18 +362,18 @@ class EventHandlerMetadataExtractor
    */
   private function readEventHandlers(string $type): array
   {
-    $composer   = Factory::create(new BufferIO());
-    $abcXmlList = AbcXmlHelper::getAbcXmlOfInstalledPackages($composer);
+    $composer       = Factory::create(new BufferIO());
+    $plaisioXmlList = PlaisioXmlHelper::getPlaisioXmlOfInstalledPackages($composer);
 
     if (is_file($this->configFilename))
     {
-      $abcXmlList[] = $this->configFilename;
+      $plaisioXmlList[] = $this->configFilename;
     }
 
     $handlers = [];
-    foreach ($abcXmlList as $abcXmlPath)
+    foreach ($plaisioXmlList as $plaisioXmlPath)
     {
-      $helper   = new AbcXmlHelper($abcXmlPath);
+      $helper   = new PlaisioXmlHelper($plaisioXmlPath);
       $handlers = array_merge($handlers, $helper->extractEventHandlers($type));
     }
 

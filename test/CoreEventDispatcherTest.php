@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test;
+namespace Plaisio\Event\Test;
 
 use PHPUnit\Framework\TestCase;
-use SetBased\Abc\Event\Command\GenerateEventDispatcherCommand;
-use SetBased\Abc\Event\Test\CoreEventDispatcherTest\Event1;
-use SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventDispatcher;
-use SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler;
+use Plaisio\Event\Command\GenerateEventDispatcherCommand;
+use Plaisio\Event\Test\CoreEventDispatcherTest\Event1;
+use Plaisio\Event\Test\CoreEventDispatcherTest\EventDispatcher;
+use Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -26,10 +26,10 @@ class CoreEventDispatcherTest extends TestCase
     $application->add(new GenerateEventDispatcherCommand());
 
     /** @var GenerateEventDispatcherCommand $command */
-    $command       = $application->find('abc:generate-core-event-dispatcher');
+    $command       = $application->find('plaisio:generate-core-event-dispatcher');
     $commandTester = new CommandTester($command);
     $commandTester->execute(['command'     => $command->getName(),
-                             'config file' => __DIR__.'/CoreEventDispatcherTest/abc.xml']);
+                             'config file' => __DIR__.'/CoreEventDispatcherTest/plaisio.xml']);
 
     $ret = $commandTester->getStatusCode();
     self::assertEquals(0, $ret);

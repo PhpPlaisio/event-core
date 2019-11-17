@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\Command\Ok;
+namespace Plaisio\Event\Test\Command\Ok;
 
 /**
  * An empty event.

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Command;
+namespace Plaisio\Event\Command;
 
 use Composer\IO\ConsoleIO;
-use SetBased\Abc\Console\Style\AbcStyle;
-use SetBased\Abc\Event\Exception\MetadataExtractorException;
-use SetBased\Abc\Event\Helper\AbcXmlHelper;
-use SetBased\Abc\Event\Helper\EventDispatcherCodeGenerator;
-use SetBased\Abc\Event\Helper\EventHandlerMetadataExtractor;
+use Plaisio\Console\Style\PlaisioStyle;
+use Plaisio\Event\Exception\MetadataExtractorException;
+use Plaisio\Event\Helper\EventDispatcherCodeGenerator;
+use Plaisio\Event\Helper\EventHandlerMetadataExtractor;
+use Plaisio\Event\Helper\PlaisioXmlHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,7 +31,7 @@ class GenerateEventDispatcherCommand extends Command
   /**
    * The output decorator.
    *
-   * @var AbcStyle
+   * @var PlaisioStyle
    */
   private $io;
 
@@ -41,9 +41,9 @@ class GenerateEventDispatcherCommand extends Command
    */
   protected function configure()
   {
-    $this->setName('abc:generate-core-event-dispatcher')
+    $this->setName('plaisio:generate-core-event-dispatcher')
          ->setDescription('Generates the code for the core\'s event dispatcher')
-         ->addArgument('config file', InputArgument::OPTIONAL, 'The abc.xml configuration file', 'abc.xml');
+         ->addArgument('config file', InputArgument::OPTIONAL, 'The plaisio.xml configuration file', 'plaisio.xml');
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -54,14 +54,14 @@ class GenerateEventDispatcherCommand extends Command
   {
     try
     {
-      $this->io        = new AbcStyle($input, $output);
+      $this->io        = new PlaisioStyle($input, $output);
       $this->consoleIo = new ConsoleIO($input, $output, $this->getHelperSet());
 
       $metadataExtractor = new EventHandlerMetadataExtractor($this->io, $input->getArgument('config file'));
       $modifyHandlers    = $metadataExtractor->extractEventHandlers('modify');
       $notifyHandlers    = $metadataExtractor->extractEventHandlers('notify');
 
-      $xmlHelper = new AbcXmlHelper($input->getArgument('config file'));
+      $xmlHelper = new PlaisioXmlHelper($input->getArgument('config file'));
       [$class, $path] = $xmlHelper->extractEventDispatcherClass();
 
       $generator = new EventDispatcherCodeGenerator();

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Exception;
+namespace Plaisio\Event\Exception;
 
 use SetBased\Exception\RuntimeException;
 
 /**
  * Class MetadataExtractorException
  *
- * @package SetBased\Abc\Event\Exception
+ * @package Plaisio\Event\Exception
  */
 class MetadataExtractorException extends RuntimeException
 {

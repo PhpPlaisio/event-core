@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\CoreEventDispatcherTest;
+namespace Plaisio\Event\Test\CoreEventDispatcherTest;
 
 /**
  * An empty event handler.
@@ -24,13 +24,12 @@ class EventHandler
   public static $log = [];
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * Empty event handler.
    *
    * @param Event1 $event The event.
    *
-   * @before \SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle2
+   * @before \Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2
    */
   public static function handle1(Event1 $event): void
   {
@@ -43,8 +42,8 @@ class EventHandler
    *
    * @param Event1 $event The event.
    *
-   * @before \SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle3
-   * @after \SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle1
+   * @before \Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle3
+   * @after \Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle1
    */
   public static function handle2(Event1 $event): void
   {
@@ -59,7 +58,7 @@ class EventHandler
    *
    * @param Event1 $event The event.
    *
-   * @after \SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle2
+   * @after \Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2
    */
   public static function handle3(Event1 $event): void
   {

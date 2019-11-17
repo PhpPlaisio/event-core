@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Helper;
+namespace Plaisio\Event\Helper;
 
 /**
  * Simple directed graph class for cyclic detection.

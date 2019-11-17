@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\Helper;
+namespace Plaisio\Event\Test\Helper;
 
 use PHPUnit\Framework\TestCase;
-use SetBased\Abc\Event\Helper\Graph;
+use Plaisio\Event\Helper\Graph;
 
 /**
  * Test cases for class Graph.

@@ -1,8 +1,8 @@
 {
-  "name": "setbased/abc-event-core",
-  "description": "ABC-Framework: Core Event",
+  "name": "plaisio/event-core",
+  "description": "PhpPlaisio: Core Event",
   "keywords": [
-    "ABC-Framework",
+    "PhpPlaisio",
     "Core",
     "Event"
   ],
@@ -11,10 +11,10 @@
     "php": ">=7.1.0",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "setbased/abc": "*",
-    "setbased/abc-console": "*",
-    "setbased/abc-event": "*",
-    "setbased/abc-exception": "^2.0.0",
+    "plaisio/kernel": "^1.0.0",
+    "plaisio/console": "^0.2.0",
+    "plaisio/event": "^1.0.0",
+    "plaisio/exception": "^1.0.0",
     "setbased/helper-code-store-php": "^2.1.1",
     "symfony/console": "^4.0.0"
   },
@@ -24,12 +24,12 @@
   },
   "autoload": {
     "psr-4": {
-      "SetBased\\Abc\\Event\\": "src/"
+      "Plaisio\\Event\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "SetBased\\Abc\\Event\\Test\\": "test/"
+      "Plaisio\\Event\\Test\\": "test/"
     }
   },
   "config": {

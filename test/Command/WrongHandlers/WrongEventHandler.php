@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\Command\WrongHandlers;
+namespace Plaisio\Event\Test\Command\WrongHandlers;
 
 /**
  * An empty event handler.
@@ -36,7 +36,7 @@ abstract class WrongEventHandler
    *
    * @param WrongEvent $event The event.
    *
-   * @after  SetBased\Abc\Event\Test\Command\WrongHandlers\WrongEventHandler::notHandler1
+   * @after  Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notHandler1
    */
   public static function handlersNotExists1(WrongEvent $event): void
   {
@@ -48,7 +48,7 @@ abstract class WrongEventHandler
    *
    * @param WrongEvent $event The event.
    *
-   * @before SetBased\Abc\Event\Test\Command\WrongHandlers\WrongEventHandler::notHandler2
+   * @before Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notHandler2
    */
   public static function handlersNotExists2(WrongEvent $event): void
   {
@@ -60,7 +60,7 @@ abstract class WrongEventHandler
    *
    * @param WrongEvent $event The event.
    *
-   * @after SetBased\Abc\Event\Test\Command\WrongHandlers\WrongEventHandler::notExists
+   * @after Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notExists
    */
   public static function methodNotExists(WrongEvent $event): void
   {

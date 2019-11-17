@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\Command\Ok;
+namespace Plaisio\Event\Test\Command\Ok;
 
-use SetBased\Abc\Event\CoreEventDispatcher;
+use Plaisio\Event\CoreEventDispatcher;
 
 /**
  * Concrete implementation of the event dispatcher.
@@ -16,11 +16,11 @@ class EventDispatcher extends CoreEventDispatcher
    */
   protected static $notifyHandlers =
     [
-      'SetBased\Abc\Event\Test\Command\Ok\OkEvent1' => [['SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle1', null],
-                                                        ['SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle2', 1],
-                                                        ['SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle3', null]],
+      'Plaisio\Event\Test\Command\Ok\OkEvent1' => [['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle1', null],
+                                                   ['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle2', 1],
+                                                   ['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle3', null]],
 
-      'SetBased\Abc\Event\Test\Command\Ok\OkEvent2' => [['SetBased\Abc\Event\Test\Command\Ok\OkEventHandler::handle4', null]]
+      'Plaisio\Event\Test\Command\Ok\OkEvent2' => [['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle4', null]]
     ];
 
   //--------------------------------------------------------------------------------------------------------------------

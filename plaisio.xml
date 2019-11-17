@@ -1,0 +1,5 @@
+<plaisio>
+    <commands>
+        <command name="plaisio:generate-core-event-dispatcher">\Plaisio\Event\Command\GenerateEventDispatcherCommand</command>
+    </commands>
+</plaisio>

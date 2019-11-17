@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\CoreEventDispatcherTest;
+namespace Plaisio\Event\Test\CoreEventDispatcherTest;
 
 /**
  * An empty event.

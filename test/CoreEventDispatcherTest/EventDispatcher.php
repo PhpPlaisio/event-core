@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Test\CoreEventDispatcherTest;
+namespace Plaisio\Event\Test\CoreEventDispatcherTest;
 
-use SetBased\Abc\Event\CoreEventDispatcher;
+use Plaisio\Event\CoreEventDispatcher;
 
 /**
  * Concrete implementation of the event dispatcher.
@@ -16,9 +16,9 @@ class EventDispatcher extends CoreEventDispatcher
    */
   protected static $modifyHandlers =
     [
-      'SetBased\Abc\Event\Test\CoreEventDispatcherTest\Event1' => [['SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle1', null],
-                                                                   ['SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle2', null],
-                                                                   ['SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle3', null]]
+      'Plaisio\Event\Test\CoreEventDispatcherTest\Event1' => [['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle1', null],
+                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2', null],
+                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle3', null]]
     ];
 
   /**
@@ -26,11 +26,11 @@ class EventDispatcher extends CoreEventDispatcher
    */
   protected static $notifyHandlers =
     [
-      'SetBased\Abc\Event\Test\CoreEventDispatcherTest\Event1' => [['SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle1', null],
-                                                                   ['SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle2', null],
-                                                                   ['SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle3', null]],
+      'Plaisio\Event\Test\CoreEventDispatcherTest\Event1' => [['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle1', null],
+                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2', null],
+                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle3', null]],
 
-      'SetBased\Abc\Event\Test\CoreEventDispatcherTest\Event2' => [['SetBased\Abc\Event\Test\CoreEventDispatcherTest\EventHandler::handle4', null]]
+      'Plaisio\Event\Test\CoreEventDispatcherTest\Event2' => [['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle4', null]]
     ];
 
   //--------------------------------------------------------------------------------------------------------------------

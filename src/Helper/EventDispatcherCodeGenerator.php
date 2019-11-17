@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\Event\Helper;
+namespace Plaisio\Event\Helper;
 
 use SetBased\Helper\CodeStore\PhpCodeStore;
 
@@ -41,7 +41,7 @@ class EventDispatcherCodeGenerator
   {
     $parts     = explode('\\', $class);
     $class     = array_pop($parts);
-    $namespace = implode('\\', $parts);
+    $namespace = ltrim(implode('\\', $parts), '\\');
 
     $this->generateHeader($namespace);
     $this->generateClass($class, $modifyHandlers, $notifyHandlers);
@@ -148,7 +148,7 @@ class EventDispatcherCodeGenerator
     $this->store->append('');
     $this->store->append(sprintf('namespace %s;', $namespace));
     $this->store->append('');
-    $this->store->append('use SetBased\Abc\Event\CoreEventDispatcher;');
+    $this->store->append('use Plaisio\Event\CoreEventDispatcher;');
     $this->store->append('');
   }
 
