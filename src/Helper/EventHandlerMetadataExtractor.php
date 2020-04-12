@@ -153,7 +153,7 @@ class EventHandlerMetadataExtractor
 
     foreach ($handlers as $handler)
     {
-      $this->io->writeln(sprintf('Processing %s', $handler));
+      $this->io->text(sprintf('Processing %s', $handler));
 
       try
       {
