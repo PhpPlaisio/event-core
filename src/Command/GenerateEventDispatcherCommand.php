@@ -9,7 +9,6 @@ use Plaisio\Event\Exception\MetadataExtractorException;
 use Plaisio\Event\Helper\EventDispatcherCodeGenerator;
 use Plaisio\Event\Helper\EventHandlerMetadataExtractor;
 use Plaisio\Event\Helper\PlaisioXmlHelper;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,8 +24,7 @@ class GenerateEventDispatcherCommand extends PlaisioCommand
   protected function configure()
   {
     $this->setName('plaisio:generate-core-event-dispatcher')
-         ->setDescription('Generates the code for the core\'s event dispatcher')
-         ->addArgument('config file', InputArgument::OPTIONAL, 'The plaisio.xml configuration file', 'plaisio.xml');
+         ->setDescription('Generates the code for the core\'s event dispatcher');
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -39,11 +37,11 @@ class GenerateEventDispatcherCommand extends PlaisioCommand
 
     try
     {
-      $metadataExtractor = new EventHandlerMetadataExtractor($this->io, $input->getArgument('config file'));
+      $metadataExtractor = new EventHandlerMetadataExtractor($this->io);
       $modifyHandlers    = $metadataExtractor->extractEventHandlers('modify');
       $notifyHandlers    = $metadataExtractor->extractEventHandlers('notify');
 
-      $xmlHelper = new PlaisioXmlHelper($input->getArgument('config file'));
+      $xmlHelper = new PlaisioXmlHelper();
       [$class, $path] = $xmlHelper->extractEventDispatcherClass();
 
       $generator = new EventDispatcherCodeGenerator();

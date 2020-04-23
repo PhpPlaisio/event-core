@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Plaisio\Event\Helper;
 
-use Composer\Factory;
-use Composer\IO\BufferIO;
 use Plaisio\Console\Style\PlaisioStyle;
 use Plaisio\Event\Exception\MetadataExtractorException;
 use SetBased\Exception\FallenException;
@@ -15,13 +13,6 @@ use SetBased\Exception\FallenException;
 class EventHandlerMetadataExtractor
 {
   //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * The path of the plaisio.xml config file.
-   *
-   * @var string
-   */
-  private $configFilename;
-
   /**
    * The number of errors occurred.
    *
@@ -40,13 +31,11 @@ class EventHandlerMetadataExtractor
   /**
    * EventHandlerMetadataExtractor constructor.
    *
-   * @param PlaisioStyle $io             The output decorator.
-   * @param string       $configFilename The path of the plaisio.xml config file.
+   * @param PlaisioStyle $io The output decorator.
    */
-  public function __construct(PlaisioStyle $io, string $configFilename)
+  public function __construct(PlaisioStyle $io)
   {
-    $this->io             = $io;
-    $this->configFilename = $configFilename;
+    $this->io = $io;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -362,13 +351,7 @@ class EventHandlerMetadataExtractor
    */
   private function readEventHandlers(string $type): array
   {
-    $composer       = Factory::create(new BufferIO());
-    $plaisioXmlList = PlaisioXmlHelper::getPlaisioXmlOfInstalledPackages($composer);
-
-    if (is_file($this->configFilename))
-    {
-      $plaisioXmlList[] = $this->configFilename;
-    }
+    $plaisioXmlList = PlaisioXmlHelper::findPlaisioXmlAll();
 
     $handlers = [];
     foreach ($plaisioXmlList as $plaisioXmlPath)

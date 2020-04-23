@@ -22,14 +22,15 @@ class CoreEventDispatcherTest extends TestCase
    */
   public function test1(): void
   {
+    $_ENV['PLAISIO_CONFIG'] = 'test/CoreEventDispatcherTest/plaisio.xml';
+
     $application = new Application();
     $application->add(new GenerateEventDispatcherCommand());
 
     /** @var GenerateEventDispatcherCommand $command */
     $command       = $application->find('plaisio:generate-core-event-dispatcher');
     $commandTester = new CommandTester($command);
-    $commandTester->execute(['command'     => $command->getName(),
-                             'config file' => __DIR__.'/CoreEventDispatcherTest/plaisio.xml']);
+    $commandTester->execute(['command' => $command->getName()]);
 
     $ret = $commandTester->getStatusCode();
     self::assertEquals(0, $ret);
