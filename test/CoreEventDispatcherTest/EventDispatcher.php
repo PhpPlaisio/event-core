@@ -16,9 +16,9 @@ class EventDispatcher extends CoreEventDispatcher
    */
   protected static $modifyHandlers =
     [
-      'Plaisio\Event\Test\CoreEventDispatcherTest\Event1' => [['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle1', null],
-                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2', null],
-                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle3', null]]
+      Event1::class => [[[EventHandler::class, 'handle1'], null],
+                        [[EventHandler::class, 'handle2'], null],
+                        [[EventHandler::class, 'handle3'], null]]
     ];
 
   /**
@@ -26,11 +26,11 @@ class EventDispatcher extends CoreEventDispatcher
    */
   protected static $notifyHandlers =
     [
-      'Plaisio\Event\Test\CoreEventDispatcherTest\Event1' => [['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle1', null],
-                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2', null],
-                                                              ['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle3', null]],
+      Event1::class => [[[EventHandler::class, 'handle1'], null],
+                        [[EventHandler::class, 'handle2'], null],
+                        [[EventHandler::class, 'handle3'], null]],
 
-      'Plaisio\Event\Test\CoreEventDispatcherTest\Event2' => [['Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle4', null]]
+      Event2::class => [[[EventHandler::class, 'handle4'], null]]
     ];
 
   //--------------------------------------------------------------------------------------------------------------------

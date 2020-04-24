@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\Event\Helper;
 
+use SetBased\Helper\CodeStore\Importing;
 use SetBased\Helper\CodeStore\PhpCodeStore;
 
 /**
@@ -11,6 +12,20 @@ use SetBased\Helper\CodeStore\PhpCodeStore;
 class EventDispatcherCodeGenerator
 {
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * The aprent class of the generated event dispatcher.
+   *
+   * @var string
+   */
+  private static $parentClass = '\\Plaisio\\Event\\CoreEventDispatcher';
+
+  /**
+   * The helper object for importing classes.
+   *
+   * @var Importing
+   */
+  private $importing;
+
   /**
    * The PHP code store.
    *
@@ -31,17 +46,24 @@ class EventDispatcherCodeGenerator
   /**
    * Generates the PHP code of the event dispatcher.
    *
-   * @param string  $class          The fully qualified class name.
-   * @param array[] $modifyHandlers The metadata of the modify event handlers.
-   * @param array[] $notifyHandlers The metadata of the notify event handlers.
+   * @param string  $fullyQualifiedName The fully qualified class name.
+   * @param array[] $modifyHandlers     The metadata of the modify event handlers.
+   * @param array[] $notifyHandlers     The metadata of the notify event handlers.
    *
    * @return string
    */
-  public function generateCode(string $class, array $modifyHandlers, array $notifyHandlers): string
+  public function generateCode(string $fullyQualifiedName, array $modifyHandlers, array $notifyHandlers): string
   {
-    $parts     = explode('\\', $class);
+    $parts     = explode('\\', $fullyQualifiedName);
     $class     = array_pop($parts);
     $namespace = ltrim(implode('\\', $parts), '\\');
+
+    $this->importing = new Importing($namespace);
+    $this->importing->addClass(self::$parentClass);
+    $this->importClasses($modifyHandlers);
+    $this->importClasses($notifyHandlers);
+
+    $this->importing->prepare();
 
     $this->generateHeader($namespace);
     $this->generateClass($class, $modifyHandlers, $notifyHandlers);
@@ -76,7 +98,7 @@ class EventDispatcherCodeGenerator
         $this->store->append('');
       }
 
-      $this->store->append(sprintf("    '%s' => [", $event), false);
+      $this->store->append(sprintf("    %s::class => [", $this->importing->simplyFullyQualifiedName($event)), false);
       $this->generateHandlers($handlers, mb_strlen($this->store->getLastLine()));
 
       $first = false;
@@ -98,7 +120,9 @@ class EventDispatcherCodeGenerator
     $this->store->append('/**');
     $this->store->append(' * Concrete implementation of the event dispatcher.', false);
     $this->store->append(' */', false);
-    $this->store->append(sprintf('class %s extends CoreEventDispatcher', $class));
+    $this->store->append(sprintf('class %s extends %s',
+                                 $class,
+                                 $this->importing->simplyFullyQualifiedName(self::$parentClass)));
     $this->store->append('{');
     $this->store->appendSeparator();
     $this->generateAllHandlers($modifyHandlers, '$modifyHandlers');
@@ -119,7 +143,10 @@ class EventDispatcherCodeGenerator
     $first = true;
     foreach ($handlers as $handler)
     {
-      $line = sprintf("['%s::%s', %s]", $handler['class'], $handler['method'], $handler['only_for_company'] ?? 'null');
+      $line = sprintf("[[%s::class, '%s'], %s]",
+                      $this->importing->simplyFullyQualifiedName($handler['class']),
+                      $handler['method'],
+                      $handler['only_for_company'] ?? 'null');
       if ($first)
       {
         $this->store->appendToLastLine($line);
@@ -148,7 +175,7 @@ class EventDispatcherCodeGenerator
     $this->store->append('');
     $this->store->append(sprintf('namespace %s;', $namespace));
     $this->store->append('');
-    $this->store->append('use Plaisio\Event\CoreEventDispatcher;');
+    $this->store->append($this->importing->imports());
     $this->store->append('');
   }
 
@@ -160,6 +187,27 @@ class EventDispatcherCodeGenerator
   {
     $this->store->append('');
     $this->store->appendSeparator();
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Adds classes of event handlers to the importing helper object.
+   *
+   * @param array $allHandlers The metadata of the event handlers.
+   */
+  private function importClasses(array $allHandlers): void
+  {
+    foreach ($allHandlers as $event => $handlers)
+    {
+      if (!empty($handlers))
+      {
+        $this->importing->addClass($event);
+        foreach ($handlers as $handler)
+        {
+          $this->importing->addClass($handler['class']);
+        }
+      }
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------

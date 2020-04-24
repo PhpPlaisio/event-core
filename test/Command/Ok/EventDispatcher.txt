@@ -16,11 +16,11 @@ class EventDispatcher extends CoreEventDispatcher
    */
   protected static $notifyHandlers =
     [
-      'Plaisio\Event\Test\Command\Ok\OkEvent1' => [['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle1', null],
-                                                   ['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle2', 1],
-                                                   ['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle3', null]],
+      OkEvent1::class => [[[OkEventHandler::class, 'handle1'], null],
+                          [[OkEventHandler::class, 'handle2'], 1],
+                          [[OkEventHandler::class, 'handle3'], null]],
 
-      'Plaisio\Event\Test\Command\Ok\OkEvent2' => [['Plaisio\Event\Test\Command\Ok\OkEventHandler::handle4', null]]
+      OkEvent2::class => [[[OkEventHandler::class, 'handle4'], null]]
     ];
 
   //--------------------------------------------------------------------------------------------------------------------
