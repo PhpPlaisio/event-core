@@ -22,7 +22,7 @@ class CoreEventDispatcherTest extends TestCase
    */
   public function test1(): void
   {
-    $_ENV['PLAISIO_CONFIG'] = 'test/CoreEventDispatcherTest/plaisio.xml';
+    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG', __DIR__.'/CoreEventDispatcherTest/plaisio.xml'));
 
     $application = new Application();
     $application->add(new GenerateEventDispatcherCommand());

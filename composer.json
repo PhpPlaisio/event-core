@@ -11,7 +11,7 @@
     "php": ">=7.3",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "plaisio/console": "^0.2.15",
+    "plaisio/console": "^1.0",
     "plaisio/event": "^1.1",
     "plaisio/exception": "^1.1",
     "plaisio/kernel": "^1.1",

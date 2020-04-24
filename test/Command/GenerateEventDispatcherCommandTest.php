@@ -30,7 +30,7 @@ class GenerateEventDispatcherCommandTest extends TestCase
    */
   public function testCycle(): void
   {
-    $_ENV['PLAISIO_CONFIG'] = __DIR__.'/Cycle/plaisio.xml';
+    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG', __DIR__.'/Cycle/plaisio.xml'));
 
     $application = new Application();
     $application->add(new GenerateEventDispatcherCommand());
@@ -57,7 +57,7 @@ class GenerateEventDispatcherCommandTest extends TestCase
    */
   public function testOk(): void
   {
-    $_ENV['PLAISIO_CONFIG'] = __DIR__.'/Ok/plaisio.xml';
+    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG', __DIR__.'/Ok/plaisio.xml'));
 
     $application = new Application();
     $application->add(new GenerateEventDispatcherCommand());
@@ -93,7 +93,7 @@ class GenerateEventDispatcherCommandTest extends TestCase
    */
   public function testWrongHandlers(): void
   {
-    $_ENV['PLAISIO_CONFIG'] = __DIR__.'/WrongHandlers/plaisio.xml';
+    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG', __DIR__.'/WrongHandlers/plaisio.xml'));
 
     $application = new Application();
     $application->add(new GenerateEventDispatcherCommand());

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\Event\Helper;
 
+use Plaisio\Console\Helper\PlaisioXmlUtility;
 use Plaisio\Console\Style\PlaisioStyle;
 use Plaisio\Event\Exception\MetadataExtractorException;
 use SetBased\Exception\FallenException;
@@ -28,6 +29,7 @@ class EventHandlerMetadataExtractor
   private $io;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * EventHandlerMetadataExtractor constructor.
    *
@@ -351,7 +353,7 @@ class EventHandlerMetadataExtractor
    */
   private function readEventHandlers(string $type): array
   {
-    $plaisioXmlList = PlaisioXmlHelper::findPlaisioXmlAll();
+    $plaisioXmlList = PlaisioXmlUtility::findPlaisioXmlAll();
 
     $handlers = [];
     foreach ($plaisioXmlList as $plaisioXmlPath)
