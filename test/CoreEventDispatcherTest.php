@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace Plaisio\Event\Test;
 
 use PHPUnit\Framework\TestCase;
+use Plaisio\CompanyResolver\UniCompanyResolver;
 use Plaisio\Event\Command\GenerateEventDispatcherCommand;
 use Plaisio\Event\Test\CoreEventDispatcherTest\Event1;
 use Plaisio\Event\Test\CoreEventDispatcherTest\EventDispatcher;
 use Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler;
+use Plaisio\Kernel\Nub;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -16,6 +18,15 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class CoreEventDispatcherTest extends TestCase
 {
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * @inheritdoc
+   */
+  public static function setUpBeforeClass(): void
+  {
+    Nub::$companyResolver = new UniCompanyResolver(1);
+  }
+
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Generates the event handler.

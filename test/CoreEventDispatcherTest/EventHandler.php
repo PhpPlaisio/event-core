@@ -10,6 +10,11 @@ class EventHandler
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * The ID of my company.
+   */
+  const MY_COMPANY = 1;
+
+  /**
    * The event dispatcher.
    *
    * @var EventDispatcher
@@ -24,6 +29,7 @@ class EventHandler
   public static $log = [];
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * Empty event handler.
    *
@@ -59,6 +65,8 @@ class EventHandler
    * @param Event1 $event The event.
    *
    * @after \Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2
+   *
+   * @onlyForCompany \Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::MY_COMPANY
    */
   public static function handle3(Event1 $event): void
   {
@@ -70,6 +78,8 @@ class EventHandler
    * Empty event handler.
    *
    * @param Event2 $event The event.
+   *
+   * @onlyForCompany self::MY_COMPANY
    */
   public static function handle4(Event2 $event): void
   {

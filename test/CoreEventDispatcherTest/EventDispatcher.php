@@ -18,7 +18,7 @@ class EventDispatcher extends CoreEventDispatcher
     [
       Event1::class => [[[EventHandler::class, 'handle1'], null],
                         [[EventHandler::class, 'handle2'], null],
-                        [[EventHandler::class, 'handle3'], null]]
+                        [[EventHandler::class, 'handle3'], EventHandler::MY_COMPANY]]
     ];
 
   /**
@@ -28,9 +28,9 @@ class EventDispatcher extends CoreEventDispatcher
     [
       Event1::class => [[[EventHandler::class, 'handle1'], null],
                         [[EventHandler::class, 'handle2'], null],
-                        [[EventHandler::class, 'handle3'], null]],
+                        [[EventHandler::class, 'handle3'], EventHandler::MY_COMPANY]],
 
-      Event2::class => [[[EventHandler::class, 'handle4'], null]]
+      Event2::class => [[[EventHandler::class, 'handle4'], EventHandler::MY_COMPANY]]
     ];
 
   //--------------------------------------------------------------------------------------------------------------------

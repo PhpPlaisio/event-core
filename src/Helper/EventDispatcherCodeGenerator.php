@@ -44,6 +44,31 @@ class EventDispatcherCodeGenerator
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * If string represents a class constant returns an aray with the class and constnat name. Otherwise returns null.
+   *
+   * @param string|null $string The string.
+   * @param string      $class  The name of the class for resoling self and static.
+   *
+   * @return array|null
+   */
+  private static function splitClassConstant(?string $string, string $class): ?array
+  {
+    if ($string===null) return null;
+
+    $n = preg_match('/^(?P<class>.*)::(?P<constant>[A-Z0-9_]+)$/', $string, $parts);
+    if ($n==1)
+    {
+      $class = (in_array($parts['class'], ['self', 'static'])) ? $class : $parts['class'];
+
+      return ['class'    => $class,
+              'constant' => $parts['constant']];
+    }
+
+    return null;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Generates the PHP code of the event dispatcher.
    *
    * @param string  $fullyQualifiedName The fully qualified class name.
@@ -146,7 +171,7 @@ class EventDispatcherCodeGenerator
       $line = sprintf("[[%s::class, '%s'], %s]",
                       $this->importing->simplyFullyQualifiedName($handler['class']),
                       $handler['method'],
-                      $handler['only_for_company'] ?? 'null');
+                      $this->resolveOnlyForCompany($handler));
       if ($first)
       {
         $this->store->appendToLastLine($line);
@@ -205,9 +230,39 @@ class EventDispatcherCodeGenerator
         foreach ($handlers as $handler)
         {
           $this->importing->addClass($handler['class']);
+          $parts = self::splitClassConstant($handler['only_for_company'], $handler['class']);
+          if (is_array($parts))
+          {
+            $this->importing->addClass($parts['class']);
+          }
         }
       }
     }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Returns the PHP code for the company for with an event handler is limited.
+   *
+   * @param array $handler The event handler details.
+   *
+   * @return string
+   */
+  private function resolveOnlyForCompany(array $handler): string
+  {
+    $parts = self::splitClassConstant($handler['only_for_company'], $handler['class']);
+    if (is_array($parts))
+    {
+      $onlyForCompany = sprintf('%s::%s',
+                                $this->importing->simplyFullyQualifiedName($parts['class']),
+                                $parts['constant']);
+    }
+    else
+    {
+      $onlyForCompany = $handler['only_for_company'] ?? 'null';
+    }
+
+    return $onlyForCompany;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
