@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\Event\Helper;
 
+use Plaisio\Event\CoreEventDispatcher;
 use SetBased\Helper\CodeStore\Importing;
 use SetBased\Helper\CodeStore\PhpCodeStore;
 
@@ -13,11 +14,11 @@ class EventDispatcherCodeGenerator
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The aprent class of the generated event dispatcher.
+   * The parent class of the generated event dispatcher.
    *
    * @var string
    */
-  private static $parentClass = '\\Plaisio\\Event\\CoreEventDispatcher';
+  private static $parentClass = CoreEventDispatcher::class;
 
   /**
    * The helper object for importing classes.
