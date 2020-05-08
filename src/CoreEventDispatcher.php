@@ -67,7 +67,7 @@ abstract class CoreEventDispatcher implements EventDispatcher
       foreach ($handlers as $handler)
       {
         list($callable, $cmpId) = $handler;
-        if ($cmpId===null || $cmpId==Nub::$companyResolver->getCmpId())
+        if ($cmpId===null || $cmpId==Nub::$nub->companyResolver->getCmpId())
         {
           $callable($event);
         }
@@ -91,7 +91,7 @@ abstract class CoreEventDispatcher implements EventDispatcher
     foreach ($handlers as $handler)
     {
       list($callable, $cmpId) = $handler;
-      if ($cmpId===null || $cmpId==Nub::$companyResolver->getCmpId())
+      if ($cmpId===null || $cmpId==Nub::$nub->companyResolver->getCmpId())
       {
         $callable($event);
       }

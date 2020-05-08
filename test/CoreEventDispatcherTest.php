@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Plaisio\Event\Test;
 
 use PHPUnit\Framework\TestCase;
-use Plaisio\CompanyResolver\UniCompanyResolver;
 use Plaisio\Event\Command\GenerateEventDispatcherCommand;
 use Plaisio\Event\Test\CoreEventDispatcherTest\Event1;
 use Plaisio\Event\Test\CoreEventDispatcherTest\EventDispatcher;
@@ -20,11 +19,19 @@ class CoreEventDispatcherTest extends TestCase
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * The kernel for testing purposes.
+   *
+   * @var Nub
+   */
+  private $kernel;
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * @inheritdoc
    */
-  public static function setUpBeforeClass(): void
+  public function setUp(): void
   {
-    Nub::$companyResolver = new UniCompanyResolver(1);
+    $this->kernel = new TestKernel();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

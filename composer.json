@@ -14,7 +14,7 @@
     "plaisio/console": "^1.0",
     "plaisio/event": "^1.1",
     "plaisio/exception": "^1.1",
-    "plaisio/kernel": "^1.1",
+    "plaisio/kernel": "^2.0",
     "setbased/helper-code-store-php": "^2.4.2",
     "symfony/console": "^5.0"
   },

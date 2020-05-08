@@ -29,7 +29,6 @@ class EventHandlerMetadataExtractor
   private $io;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * EventHandlerMetadataExtractor constructor.
    *
