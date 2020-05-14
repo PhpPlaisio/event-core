@@ -6,9 +6,8 @@ namespace Plaisio\Event\Test;
 use PHPUnit\Framework\TestCase;
 use Plaisio\Event\Command\GenerateEventDispatcherCommand;
 use Plaisio\Event\Test\CoreEventDispatcherTest\Event1;
-use Plaisio\Event\Test\CoreEventDispatcherTest\EventDispatcher;
 use Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler;
-use Plaisio\Kernel\Nub;
+use Plaisio\PlaisioKernel;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -21,11 +20,12 @@ class CoreEventDispatcherTest extends TestCase
   /**
    * The kernel for testing purposes.
    *
-   * @var Nub
+   * @var PlaisioKernel
    */
   private $kernel;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * @inheritdoc
    */
@@ -40,7 +40,7 @@ class CoreEventDispatcherTest extends TestCase
    */
   public function test1(): void
   {
-    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG', __DIR__.'/CoreEventDispatcherTest/plaisio.xml'));
+    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG_DIR', __DIR__.'/CoreEventDispatcherTest'));
 
     $application = new Application();
     $application->add(new GenerateEventDispatcherCommand());
@@ -60,11 +60,10 @@ class CoreEventDispatcherTest extends TestCase
    */
   public function test2(): void
   {
-    $dispatcher               = new EventDispatcher();
     EventHandler::$log        = [];
-    EventHandler::$dispatcher = $dispatcher;
-    $dispatcher->notify(new Event1());
-    $dispatcher->dispatch();
+    EventHandler::$dispatcher = $this->kernel->eventDispatcher;
+    $this->kernel->eventDispatcher->notify(new Event1());
+    $this->kernel->eventDispatcher->dispatch();
 
     self::assertEquals([EventHandler::class.'::handle1',
                         EventHandler::class.'::handle2',
@@ -78,11 +77,10 @@ class CoreEventDispatcherTest extends TestCase
    */
   public function test3(): void
   {
-    $dispatcher               = new EventDispatcher();
     EventHandler::$log        = [];
-    EventHandler::$dispatcher = $dispatcher;
-    $event1                   = new Event1();
-    $event2                   = $dispatcher->modify($event1);
+    EventHandler::$dispatcher = $this->kernel->eventDispatcher;;
+    $event1 = new Event1();
+    $event2 = $this->kernel->eventDispatcher->modify($event1);
 
     self::assertSame($event1, $event2);
     self::assertEquals([EventHandler::class.'::handle1',

@@ -11,17 +11,17 @@
     "php": ">=7.3",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "plaisio/console": "^1.0",
-    "plaisio/event": "^1.1",
+    "plaisio/console": "^2.0.1",
+    "plaisio/event": "^1.2",
     "plaisio/exception": "^1.1",
-    "plaisio/kernel": "^2.0",
+    "plaisio/kernel": "^3.0",
     "setbased/helper-code-store-php": "^2.4.2",
     "symfony/console": "^5.0"
   },
   "require-dev": {
     "phing/phing": "^2.0",
     "phpunit/phpunit": "^9.0",
-    "plaisio/company-resolver-uni": "^1.1"
+    "plaisio/company-resolver-uni": "^2.0"
   },
   "autoload": {
     "psr-4": {

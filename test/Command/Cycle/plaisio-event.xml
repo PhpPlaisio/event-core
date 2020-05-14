@@ -1,0 +1,11 @@
+<event>
+    <dispatcher>
+        <class>\Plaisio\\Event\Test\Command\Cycle\EventDispatcher</class>
+        <path>test/Command/Cycle/EventDispatcher.php</path>
+    </dispatcher>
+    <notify>
+        <handler>\Plaisio\Event\Test\Command\Cycle\CycleEventHandler::handle1</handler>
+        <handler>\Plaisio\Event\Test\Command\Cycle\CycleEventHandler::handle2</handler>
+        <handler>\Plaisio\Event\Test\Command\Cycle\CycleEventHandler::handle3</handler>
+    </notify>
+</event>

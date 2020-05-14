@@ -18,10 +18,10 @@ class PlaisioXmlHelper extends \Plaisio\Console\Helper\PlaisioXmlHelper
   {
     $xpath = new \DOMXpath($this->xml);
 
-    $list  = $xpath->query('/plaisio/event/dispatcher/class');
+    $list  = $xpath->query('/event/dispatcher/class');
     $class = $list[0]->nodeValue;
 
-    $list = $xpath->query('/plaisio/event/dispatcher/path');
+    $list = $xpath->query('/event/dispatcher/path');
     $path = $list[0]->nodeValue;
 
     return [$class, $path];
@@ -40,7 +40,7 @@ class PlaisioXmlHelper extends \Plaisio\Console\Helper\PlaisioXmlHelper
     $classes = [];
 
     $xpath = new \DOMXpath($this->xml);
-    $list  = $xpath->query(sprintf('/plaisio/event/%s/handler', $type));
+    $list  = $xpath->query(sprintf('/event/%s/handler', $type));
     foreach ($list as $item)
     {
       $classes[] = $item->nodeValue;

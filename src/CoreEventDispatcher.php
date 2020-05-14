@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Plaisio\Event;
 
-use Plaisio\Kernel\Nub;
+use Plaisio\PlaisioObject;
 
 /**
  * The core abstract implementation of the event dispatcher.
  */
-abstract class CoreEventDispatcher implements EventDispatcher
+abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatcher
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -42,9 +42,13 @@ abstract class CoreEventDispatcher implements EventDispatcher
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Object constructor.
+   *
+   * @param PlaisioObject $object The parent PhpPlaisio object.
    */
-  public function __construct()
+  public function __construct(PlaisioObject $object)
   {
+    parent::__construct($object);
+
     $this->isRunning = false;
     $this->queue     = new \SplQueue();
   }
@@ -66,8 +70,8 @@ abstract class CoreEventDispatcher implements EventDispatcher
       $handlers = static::$notifyHandlers[get_class($event)] ?? [];
       foreach ($handlers as $handler)
       {
-        list($callable, $cmpId) = $handler;
-        if ($cmpId===null || $cmpId==Nub::$nub->companyResolver->getCmpId())
+        [$callable, $cmpId] = $handler;
+        if ($cmpId===null || $cmpId==$this->nub->company->cmpId)
         {
           $callable($event);
         }
@@ -90,8 +94,8 @@ abstract class CoreEventDispatcher implements EventDispatcher
     $handlers = static::$modifyHandlers[get_class($event)] ?? [];
     foreach ($handlers as $handler)
     {
-      list($callable, $cmpId) = $handler;
-      if ($cmpId===null || $cmpId==Nub::$nub->companyResolver->getCmpId())
+      [$callable, $cmpId] = $handler;
+      if ($cmpId===null || $cmpId==$this->nub->company->cmpId)
       {
         $callable($event);
       }

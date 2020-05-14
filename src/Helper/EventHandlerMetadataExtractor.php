@@ -352,7 +352,7 @@ class EventHandlerMetadataExtractor
    */
   private function readEventHandlers(string $type): array
   {
-    $plaisioXmlList = PlaisioXmlUtility::findPlaisioXmlAll();
+    $plaisioXmlList = PlaisioXmlUtility::findPlaisioXmlAll('event');
 
     $handlers = [];
     foreach ($plaisioXmlList as $plaisioXmlPath)

@@ -1,0 +1,19 @@
+<event>
+    <dispatcher>
+        <class>\Plaisio\\Event\Test\Command\WrongHandlers\EventDispatcher</class>
+        <path>test/Command/WrongHandlers/EventDispatcher.php</path>
+    </dispatcher>
+    <notify>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::classNotExists</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::eventsMustBeClass</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::handlersNotExists1</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::handlersNotExists2</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::methodNotExists</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::multipleOnlyForCompany</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::nonReturningVoid</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notConcrete</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notStatic</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notPublic</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::twoArguments</handler>
+    </notify>
+</event>

@@ -1,0 +1,17 @@
+<event>
+    <dispatcher>
+        <class>\Plaisio\Event\Test\CoreEventDispatcherTest\EventDispatcher</class>
+        <path>test/CoreEventDispatcherTest/EventDispatcher.php</path>
+    </dispatcher>
+    <notify>
+        <handler>\Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle1</handler>
+        <handler>\Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2</handler>
+        <handler>\Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle3</handler>
+        <handler>\Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle4</handler>
+    </notify>
+    <modify>
+        <handler>\Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle1</handler>
+        <handler>\Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle2</handler>
+        <handler>\Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler::handle3</handler>
+    </modify>
+</event>

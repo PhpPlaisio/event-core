@@ -5,31 +5,34 @@ namespace Plaisio\Event\Test;
 
 use Plaisio\CompanyResolver\CompanyResolver;
 use Plaisio\CompanyResolver\UniCompanyResolver;
-use Plaisio\Kernel\Nub;
+use Plaisio\Event\Test\CoreEventDispatcherTest\EventDispatcher;
+use Plaisio\PlaisioKernel;
 
 /**
  * Kernel for testing purposes.
  */
-class TestKernel extends Nub
+class TestKernel extends PlaisioKernel
 {
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Object constructor.
-   */
-  public function __construct()
-  {
-    parent::__construct();
-  }
-
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Returns the helper object for deriving the company.
    *
    * @return CompanyResolver
    */
-  public function getCompanyResolver(): CompanyResolver
+  public function getCompany(): CompanyResolver
   {
     return new UniCompanyResolver(1);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Returns the event dispatcher.
+   *
+   * @return EventDispatcher
+   */
+  public function getEventDispatcher(): EventDispatcher
+  {
+    return new EventDispatcher($this);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

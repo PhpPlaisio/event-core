@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Plaisio\Event\Command;
 
 use Plaisio\Console\Command\PlaisioCommand;
+use Plaisio\Console\Helper\PlaisioXmlUtility;
 use Plaisio\Console\Helper\TwoPhaseWrite;
 use Plaisio\Event\Exception\MetadataExtractorException;
 use Plaisio\Event\Helper\EventDispatcherCodeGenerator;
@@ -41,7 +42,7 @@ class GenerateEventDispatcherCommand extends PlaisioCommand
       $modifyHandlers    = $metadataExtractor->extractEventHandlers('modify');
       $notifyHandlers    = $metadataExtractor->extractEventHandlers('notify');
 
-      $xmlHelper = new PlaisioXmlHelper();
+      $xmlHelper = new PlaisioXmlHelper(PlaisioXmlUtility::plaisioXmlPath('event'));
       [$class, $path] = $xmlHelper->extractEventDispatcherClass();
 
       $generator = new EventDispatcherCodeGenerator();
