@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\Event;
 
+use Plaisio\PlaisioInterface;
 use Plaisio\PlaisioObject;
 
 /**
@@ -43,9 +44,9 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
   /**
    * Object constructor.
    *
-   * @param PlaisioObject $object The parent PhpPlaisio object.
+   * @param PlaisioInterface $object The parent PhpPlaisio object.
    */
-  public function __construct(PlaisioObject $object)
+  public function __construct(PlaisioInterface $object)
   {
     parent::__construct($object);
 
