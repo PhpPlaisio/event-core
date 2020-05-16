@@ -45,7 +45,7 @@ class EventDispatcherCodeGenerator
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * If string represents a class constant returns an aray with the class and constnat name. Otherwise returns null.
+   * If string represents a class constant returns an array with the class and constant name. Otherwise returns null.
    *
    * @param string|null $string The string.
    * @param string      $class  The name of the class for resoling self and static.
