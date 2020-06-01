@@ -6,7 +6,9 @@ namespace Plaisio\Event\Test\Command;
 use PHPUnit\Framework\TestCase;
 use Plaisio\Event\Command\GenerateEventDispatcherCommand;
 use Plaisio\Event\Test\Command\Cycle\CycleEvent;
+use Plaisio\Event\Test\Command\WrongHandlers\WrongEvent;
 use Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler;
+use Plaisio\PlaisioInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -123,7 +125,11 @@ class GenerateEventDispatcherCommandTest extends TestCase
                                      $output);
     self::assertStringContainsString('Event handler '.WrongEventHandler::class.'::notPublic must be public',
                                      $output);
-    self::assertStringContainsString('Event handler '.WrongEventHandler::class.'::twoArguments must have exactly one parameter',
+    self::assertStringContainsString('Event handler '.WrongEventHandler::class.'::threeArguments must have exactly two parameters',
+                                     $output);
+    self::assertStringContainsString('Event handler '.WrongEventHandler::class.'::oneArgument must have exactly two parameters',
+                                     $output);
+    self::assertStringContainsString('First parameter of event handler '.WrongEventHandler::class.'::notPlaisioObject must be a '.PlaisioInterface::class.', got a '.WrongEvent::class.'.',
                                      $output);
   }
 

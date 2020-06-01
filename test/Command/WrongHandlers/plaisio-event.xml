@@ -10,10 +10,12 @@
         <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::handlersNotExists2</handler>
         <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::methodNotExists</handler>
         <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::multipleOnlyForCompany</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notPlaisioObject</handler>
         <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::nonReturningVoid</handler>
         <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notConcrete</handler>
         <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notStatic</handler>
         <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::notPublic</handler>
-        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::twoArguments</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::oneArgument</handler>
+        <handler>\Plaisio\Event\Test\Command\WrongHandlers\WrongEventHandler::threeArguments</handler>
     </notify>
 </event>

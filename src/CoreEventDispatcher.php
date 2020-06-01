@@ -72,9 +72,9 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
       foreach ($handlers as $handler)
       {
         [$callable, $cmpId] = $handler;
-        if ($cmpId===null || $cmpId==$this->nub->company->cmpId)
+        if ($cmpId===null || $cmpId===$this->nub->company->cmpId)
         {
-          $callable($event);
+          $callable($this, $event);
         }
       }
     }
@@ -96,9 +96,9 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
     foreach ($handlers as $handler)
     {
       [$callable, $cmpId] = $handler;
-      if ($cmpId===null || $cmpId==$this->nub->company->cmpId)
+      if ($cmpId===null || $cmpId===$this->nub->company->cmpId)
       {
-        $callable($event);
+        $callable($this, $event);
       }
     }
 

@@ -6,6 +6,7 @@ namespace Plaisio\Event\Helper;
 use Plaisio\Console\Helper\PlaisioXmlUtility;
 use Plaisio\Console\Style\PlaisioStyle;
 use Plaisio\Event\Exception\MetadataExtractorException;
+use Plaisio\PlaisioInterface;
 use SetBased\Exception\FallenException;
 
 /**
@@ -29,6 +30,7 @@ class EventHandlerMetadataExtractor
   private $io;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * EventHandlerMetadataExtractor constructor.
    *
@@ -308,7 +310,7 @@ class EventHandlerMetadataExtractor
     $this->validateHandler($reflectionClass, $reflectionMethod);
 
     $arguments = $reflectionMethod->getParameters();
-    $argument  = $arguments[0];
+    $argument  = $arguments[1];
 
     $class = $argument->getClass();
     if ($class===null)
@@ -422,10 +424,21 @@ class EventHandlerMetadataExtractor
                                            $reflectionClass->getName().'::'.$reflectionMethod->getName());
     }
 
-    if ($reflectionMethod->getNumberOfParameters()!==1)
+    if ($reflectionMethod->getNumberOfParameters()!==2)
     {
-      throw new MetadataExtractorException("Event handler '%s' must have exactly one parameter.",
+      throw new MetadataExtractorException("Event handler '%s' must have exactly two parameters.",
                                            $reflectionClass->getName().'::'.$reflectionMethod->getName());
+    }
+
+    $arguments = $reflectionMethod->getParameters();
+    $argument  = $arguments[0];
+    $class     = $argument->getClass();
+    if ($class->getName()!==PlaisioInterface::class)
+    {
+      throw new MetadataExtractorException("First parameter of event handler '%s' must be a '%s', got a '%s'.",
+                                           $reflectionClass->getName().'::'.$reflectionMethod->getName(),
+                                           PlaisioInterface::class,
+                                           $class->getName());
     }
   }
 
