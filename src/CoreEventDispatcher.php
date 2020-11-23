@@ -27,7 +27,7 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
   protected static $notifyHandlers;
 
   /**
-   * True if ans only if this dispatcher is dispatching events.
+   * Whether this dispatcher is dispatching events.
    *
    * @var bool
    */
