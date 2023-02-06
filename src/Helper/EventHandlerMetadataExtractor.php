@@ -417,7 +417,8 @@ class EventHandlerMetadataExtractor
                                            $reflectionClass->getName().'::'.$reflectionMethod->getName());
     }
 
-    if ($reflectionMethod->getReturnType()!==null && $reflectionMethod->getReturnType()->getName()!=='void')
+    $type = $reflectionMethod->getReturnType();
+    if (!is_a($type, \ReflectionNamedType::class) || $type->getName()!=='void')
     {
       throw new MetadataExtractorException("Event handler '%s' must return void.",
                                            $reflectionClass->getName().'::'.$reflectionMethod->getName());
