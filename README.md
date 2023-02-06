@@ -22,8 +22,9 @@
 <td>
 <a href="https://packagist.org/packages/plaisio/event-core"><img src="https://poser.pugx.org/plaisio/event-core/v/stable" alt="Latest Stable Version"/></a><br/>
 </td>
-<td><a href="https://travis-ci.org/PhpPlaisio/event-core"><img src="https://travis-ci.org/PhpPlaisio/event-core.svg?branch=master" alt="Build Status"/></a><br/>
-<a href="https://scrutinizer-ci.com/g/PhpPlaisio/event-core"><img src="https://scrutinizer-ci.com/g/PhpPlaisio/event-core/badges/coverage.png" alt="Code Coverage"/></a><br/>
+<td>
+<a href="https://github.com/PhpPlaisio/event-core/actions/workflows/unit.yml"><img src="https://github.com/PhpPlaisio/event-core/actions/workflows/unit.yml/badge.svg" alt="Build Status"/></a><br/>
+<a href="https://codecov.io/gh/PhpPlaisio/event-core"><img src="https://codecov.io/gh/PhpPlaisio/event-core/branch/master/graph/badge.svg" alt="Code Coverage"/></a>
 </td>
 <td>
 <a href="https://scrutinizer-ci.com/g/PhpPlaisio/event-core/?branch=master"><img src="https://scrutinizer-ci.com/g/PhpPlaisio/event-core/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality"/></a>
