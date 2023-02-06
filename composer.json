@@ -23,7 +23,7 @@
   "require-dev": {
     "phing/phing": "^3.0.0-RC4",
     "phpunit/phpunit": "^9.6.3",
-    "plaisio/company-resolver-uni": "^2.1.0",
+    "plaisio/company-resolver-uni": "^2.1.1",
     "plaisio/console-kernel": "^1.0.1",
     "setbased/error-handler": "1.3.0"
   },
