@@ -18,21 +18,21 @@ class EventDispatcherCodeGenerator
    *
    * @var string
    */
-  private static $parentClass = CoreEventDispatcher::class;
+  private static string $parentClass = CoreEventDispatcher::class;
 
   /**
    * The helper object for importing classes.
    *
    * @var Importing
    */
-  private $importing;
+  private Importing $importing;
 
   /**
    * The PHP code store.
    *
    * @var PhpCodeStore
    */
-  private $store;
+  private PhpCodeStore $store;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -45,7 +45,7 @@ class EventDispatcherCodeGenerator
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * If string represents a class constant returns an array with the class and constant name. Otherwise returns null.
+   * If string represents a class constant returns an array with the class and constant name. Otherwise, returns null.
    *
    * @param string|null $string The string.
    * @param string      $class  The name of the class for resoling self and static.
@@ -105,7 +105,7 @@ class EventDispatcherCodeGenerator
    * @param array[] $allHandlers The metadata of the event handlers.
    * @param string  $property    The property holding the event handlers: $modifyHandlers or $notifyHandlers.
    */
-  private function generateAllHandlers(array $allHandlers, string $property)
+  private function generateAllHandlers(array $allHandlers, string $property): void
   {
     // Do not generate code if there are no handlers.
     if (empty($allHandlers)) return;
@@ -113,7 +113,7 @@ class EventDispatcherCodeGenerator
     $this->store->append('/**');
     $this->store->append(' * @inheritdoc', false);
     $this->store->append(' */', false);
-    $this->store->append(sprintf('protected static %s =', $property));
+    $this->store->append(sprintf('protected static ?array %s =', $property));
     $this->store->append('  [', false);
     $first = true;
     foreach ($allHandlers as $event => $handlers)

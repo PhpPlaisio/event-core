@@ -14,7 +14,7 @@ class EventDispatcher extends CoreEventDispatcher
   /**
    * @inheritdoc
    */
-  protected static $notifyHandlers =
+  protected static ?array $notifyHandlers =
     [
       OkEvent1::class => [[[OkEventHandler::class, 'handle1'], null],
                           [[OkEventHandler::class, 'handle2'], 1],

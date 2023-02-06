@@ -6,7 +6,7 @@ namespace Plaisio\Event\Helper;
 /**
  * Helper class for retrieving information about plaisio.xml files.
  */
-class PlaisioXmlHelper extends \Plaisio\Console\Helper\PlaisioXmlHelper
+class PlaisioXmlQueryHelper extends \Plaisio\Console\Helper\PlaisioXmlQueryHelper
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -14,7 +14,7 @@ class PlaisioXmlHelper extends \Plaisio\Console\Helper\PlaisioXmlHelper
    *
    * @return string[]
    */
-  public function extractEventDispatcherClass(): array
+  public function queryEventDispatcherClass(): array
   {
     $xpath = new \DOMXpath($this->xml);
 
@@ -35,7 +35,7 @@ class PlaisioXmlHelper extends \Plaisio\Console\Helper\PlaisioXmlHelper
    *
    * @return string[]
    */
-  public function extractEventHandlers(string $type): array
+  public function queryEventHandlers(string $type): array
   {
     $classes = [];
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Plaisio\Event\Command;
 
 use Plaisio\Console\Command\PlaisioCommand;
-use Plaisio\Console\Helper\PlaisioXmlUtility;
+use Plaisio\Console\Helper\PlaisioXmlPathHelper;
 use Plaisio\Console\Helper\TwoPhaseWrite;
 use Plaisio\Event\Exception\MetadataExtractorException;
 use Plaisio\Event\Helper\EventDispatcherCodeGenerator;
 use Plaisio\Event\Helper\EventHandlerMetadataExtractor;
-use Plaisio\Event\Helper\PlaisioXmlHelper;
+use Plaisio\Event\Helper\PlaisioXmlQueryHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,7 +32,7 @@ class GenerateEventDispatcherCommand extends PlaisioCommand
   /**
    * @inheritdoc
    */
-  protected function execute(InputInterface $input, OutputInterface $output)
+  protected function execute(InputInterface $input, OutputInterface $output): int
   {
     $this->io->title('Plaisio: Generate Core Event Dispatcher');
 
@@ -42,8 +42,8 @@ class GenerateEventDispatcherCommand extends PlaisioCommand
       $modifyHandlers    = $metadataExtractor->extractEventHandlers('modify');
       $notifyHandlers    = $metadataExtractor->extractEventHandlers('notify');
 
-      $xmlHelper = new PlaisioXmlHelper(PlaisioXmlUtility::plaisioXmlPath('event'));
-      [$class, $path] = $xmlHelper->extractEventDispatcherClass();
+      $xmlHelper = new PlaisioXmlQueryHelper(PlaisioXmlPathHelper::plaisioXmlPath('event'));
+      [$class, $path] = $xmlHelper->queryEventDispatcherClass();
 
       $generator = new EventDispatcherCodeGenerator();
       $code      = $generator->generateCode($class, $modifyHandlers, $notifyHandlers);

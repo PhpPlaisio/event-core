@@ -1,10 +1,12 @@
 /.idea/
 /.phpunit.result.cache
 /bin/
+/composer.lock
+/custom.task.properties
+/custom.type.properties
 /test/Command/Ok/EventDispatcher.php
 /test/coverage.xml
 /test/etc/routines.json
 /test/etc/stratum.ini
 /test/report/
 /vendor/
-/composer.lock

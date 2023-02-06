@@ -12,7 +12,7 @@ abstract class WrongEventHandler
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Dependency must exists.
+   * Dependency must exist.
    *
    * @param PlaisioInterface $object The parent PhpPlaisio object.
    * @param WrongEvent       $event  The event.
@@ -62,7 +62,7 @@ abstract class WrongEventHandler
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Dependency must exists.
+   * Dependency must exist.
    *
    * @param PlaisioInterface $object The parent PhpPlaisio object.
    * @param WrongEvent       $event  The event.

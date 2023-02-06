@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\Event\Helper;
 
-use Plaisio\Console\Helper\PlaisioXmlUtility;
+use Plaisio\Console\Helper\PlaisioXmlPathHelper;
 use Plaisio\Console\Style\PlaisioStyle;
 use Plaisio\Event\Exception\MetadataExtractorException;
 use Plaisio\PlaisioInterface;
@@ -20,17 +20,16 @@ class EventHandlerMetadataExtractor
    *
    * @var int
    */
-  private $errorCount = 0;
+  private int $errorCount = 0;
 
   /**
    * The output decorator.
    *
    * @var PlaisioStyle
    */
-  private $io;
+  private PlaisioStyle $io;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * EventHandlerMetadataExtractor constructor.
    *
@@ -312,13 +311,13 @@ class EventHandlerMetadataExtractor
     $arguments = $reflectionMethod->getParameters();
     $argument  = $arguments[1];
 
-    $class = $argument->getClass();
-    if ($class===null)
+    $type = $argument->getType();
+    if (!is_a($type, \ReflectionNamedType::class) || $type->isBuiltin())
     {
       throw new MetadataExtractorException("Argument of event handler '%s' must be a class.",
                                            $reflectionClass->getName().'::'.$method);
     }
-    $event = $class->getName();
+    $event = $type->getName();
 
     [$before, $after] = $this->extractDependencies($reflectionMethod);
     $onlyForCompany = $this->extractCompany($reflectionMethod);
@@ -354,13 +353,13 @@ class EventHandlerMetadataExtractor
    */
   private function readEventHandlers(string $type): array
   {
-    $plaisioXmlList = PlaisioXmlUtility::findPlaisioXmlAll('event');
+    $plaisioXmlList = PlaisioXmlPathHelper::findPlaisioXmlAll('event');
 
     $handlers = [];
     foreach ($plaisioXmlList as $plaisioXmlPath)
     {
-      $helper   = new PlaisioXmlHelper($plaisioXmlPath);
-      $handlers = array_merge($handlers, $helper->extractEventHandlers($type));
+      $helper   = new PlaisioXmlQueryHelper($plaisioXmlPath);
+      $handlers = array_merge($handlers, $helper->queryEventHandlers($type));
     }
 
     $handlers = array_unique($handlers);
@@ -376,7 +375,7 @@ class EventHandlerMetadataExtractor
    *
    * @param array $events The event handlers.
    */
-  private function sortByDepth(array &$events)
+  private function sortByDepth(array &$events): void
   {
     foreach ($events as $event => &$handlers)
     {
@@ -432,7 +431,7 @@ class EventHandlerMetadataExtractor
 
     $arguments = $reflectionMethod->getParameters();
     $argument  = $arguments[0];
-    $class     = $argument->getClass();
+    $class     = $argument->getType();
     if ($class->getName()!==PlaisioInterface::class)
     {
       throw new MetadataExtractorException("First parameter of event handler '%s' must be a '%s', got a '%s'.",

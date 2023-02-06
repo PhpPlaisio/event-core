@@ -7,9 +7,9 @@ use PHPUnit\Framework\TestCase;
 use Plaisio\Event\Command\GenerateEventDispatcherCommand;
 use Plaisio\Event\Test\CoreEventDispatcherTest\Event1;
 use Plaisio\Event\Test\CoreEventDispatcherTest\EventHandler;
-use Plaisio\PlaisioKernel;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Path;
 
 /**
  * Test cass for CoreEventDispatcher.
@@ -20,12 +20,11 @@ class CoreEventDispatcherTest extends TestCase
   /**
    * The kernel for testing purposes.
    *
-   * @var PlaisioKernel
+   * @var TestKernel
    */
-  private $kernel;
+  private TestKernel $kernel;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * @inheritdoc
    */
@@ -40,7 +39,8 @@ class CoreEventDispatcherTest extends TestCase
    */
   public function test1(): void
   {
-    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG_DIR', __DIR__.'/CoreEventDispatcherTest'));
+    copy(Path::join(__DIR__, 'CoreEventDispatcherTest', 'plaisio-event.xml'),
+         Path::join(getcwd(), 'plaisio-event.xml'));
 
     $application = new Application();
     $application->add(new GenerateEventDispatcherCommand());
@@ -52,6 +52,8 @@ class CoreEventDispatcherTest extends TestCase
 
     $ret = $commandTester->getStatusCode();
     self::assertEquals(0, $ret);
+
+    unlink(Path::join(getcwd(), 'plaisio-event.xml'));
   }
 
   //--------------------------------------------------------------------------------------------------------------------

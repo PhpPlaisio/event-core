@@ -14,7 +14,7 @@ class EventDispatcher extends CoreEventDispatcher
   /**
    * @inheritdoc
    */
-  protected static $modifyHandlers =
+  protected static ?array $modifyHandlers =
     [
       Event1::class => [[[EventHandler::class, 'handle1'], null],
                         [[EventHandler::class, 'handle2'], null],
@@ -24,7 +24,7 @@ class EventDispatcher extends CoreEventDispatcher
   /**
    * @inheritdoc
    */
-  protected static $notifyHandlers =
+  protected static ?array $notifyHandlers =
     [
       Event1::class => [[[EventHandler::class, 'handle1'], null],
                         [[EventHandler::class, 'handle2'], null],

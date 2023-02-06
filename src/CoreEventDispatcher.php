@@ -17,28 +17,28 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
    *
    * @var array[]|null
    */
-  protected static $modifyHandlers;
+  protected static ?array $modifyHandlers;
 
   /**
    * The notify event handlers.
    *
    * @var array[]|null
    */
-  protected static $notifyHandlers;
+  protected static ?array $notifyHandlers;
 
   /**
    * Whether this dispatcher is dispatching events.
    *
    * @var bool
    */
-  private $isRunning;
+  private bool $isRunning;
 
   /**
    * The event queue.
    *
    * @var \SplQueue
    */
-  private $queue;
+  private \SplQueue $queue;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -90,7 +90,7 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
    *
    * @return object The event that was passed, now modified by callers.
    */
-  public function modify($event)
+  public function modify(object $event): object
   {
     $handlers = static::$modifyHandlers[get_class($event)] ?? [];
     foreach ($handlers as $handler)
@@ -111,7 +111,7 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
    *
    * @param object $event The event.
    */
-  public function notify($event): void
+  public function notify(object $event): void
   {
     $this->queue->enqueue($event);
   }

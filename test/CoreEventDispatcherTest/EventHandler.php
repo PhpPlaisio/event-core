@@ -19,16 +19,16 @@ class EventHandler
   /**
    * The event dispatcher.
    *
-   * @var EventDispatcher
+   * @var \Plaisio\Event\EventDispatcher
    */
-  public static $dispatcher;
+  public static \Plaisio\Event\EventDispatcher $dispatcher;
 
   /**
    * The log.
    *
    * @var array
    */
-  public static $log = [];
+  public static array $log = [];
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
