@@ -61,13 +61,16 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
   public function dispatch(): void
   {
     // Return immediately if this dispatcher is dispatching events already.
-    if ($this->isRunning) return;
+    if ($this->isRunning)
+    {
+      return;
+    }
 
     $this->isRunning = true;
 
     while (!$this->queue->isEmpty())
     {
-      $event    = $this->queue->dequeue();
+      $event = $this->queue->dequeue();
       $handlers = static::$notifyHandlers[get_class($event)] ?? [];
       foreach ($handlers as $handler)
       {
@@ -113,7 +116,32 @@ abstract class CoreEventDispatcher extends PlaisioObject implements EventDispatc
    */
   public function notify(object $event): void
   {
-    $this->queue->enqueue($event);
+    if (!$this->isQueued($event))
+    {
+      $this->queue->enqueue($event);
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Returns whether an event is already queued.
+   *
+   * @param object $event The event.
+   *
+   * @return bool
+   */
+  private function isQueued(object $event): bool
+  {
+    $serial = serialize($event);
+    foreach ($this->queue as $tmpEvent)
+    {
+      if (serialize($tmpEvent)===$serial)
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
