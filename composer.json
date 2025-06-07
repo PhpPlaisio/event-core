@@ -16,7 +16,7 @@
     "plaisio/exception": "^1.2.0",
     "plaisio/kernel": "^3.2.1",
     "setbased/helper-code-store-php": "^2.6.0",
-    "symfony/console": "^6.2.5"
+    "symfony/console": "^6.0|^7.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
