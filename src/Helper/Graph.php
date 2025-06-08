@@ -40,7 +40,7 @@ class Graph
    * Adds a directed edge to the graph.
    *
    * @param string $from The name of from node.
-   * @param string $to   The name of the to node.
+   * @param string $to   The name of to node.
    */
   public function addEdge(string $from, string $to): void
   {
