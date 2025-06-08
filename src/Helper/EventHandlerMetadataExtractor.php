@@ -96,9 +96,8 @@ class EventHandlerMetadataExtractor
    */
   private static function extractClassMethod(string $handler): array
   {
-    $parts = preg_split('/::/', $handler);
-
-    if (count($parts)!=2)
+    $parts = explode('::', $handler);
+    if (count($parts)!==2)
     {
       throw new MetadataExtractorException("Event handler '%s' does not conform to excepted format: class::method.",
                                            $handler);
@@ -156,13 +155,7 @@ class EventHandlerMetadataExtractor
         if (empty($ret[$metadata['event']])) $ret[$metadata['event']] = [];
         $ret[$metadata['event']][] = $metadata;
       }
-      catch (MetadataExtractorException $e)
-      {
-        $this->io->error($e->getMessage());
-
-        $this->errorCount++;
-      }
-      catch (\ReflectionException $e)
+      catch (MetadataExtractorException|\ReflectionException $e)
       {
         $this->io->error($e->getMessage());
 
@@ -203,7 +196,7 @@ class EventHandlerMetadataExtractor
     }
     catch (\ReflectionException $exception)
     {
-      throw new MetadataExtractorException([$exception], "Caught reflection exception '%s.", $exception->getMessage());
+      throw new MetadataExtractorException([$exception], "Caught reflection exception '%s'.", $exception->getMessage());
     }
   }
 
@@ -377,7 +370,7 @@ class EventHandlerMetadataExtractor
    */
   private function sortByDepth(array &$events): void
   {
-    foreach ($events as $event => &$handlers)
+    foreach ($events as &$handlers)
     {
       $graph  = self::createGraph($handlers);
       $depths = $graph->depth();

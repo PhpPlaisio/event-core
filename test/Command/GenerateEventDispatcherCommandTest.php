@@ -87,7 +87,7 @@ class GenerateEventDispatcherCommandTest extends TestCase
     self::assertEquals(0, $ret);
 
     $output = $commandTester->getDisplay();
-    self::assertStringContainsString('File test/Command/Ok/EventDispatcher.php is up to date', $output);
+    self::assertStringContainsString('File test/Command/Ok/EventDispatcher.php is up to date.', $output);
 
     self::assertFileEquals(__DIR__.'/Ok/EventDispatcher.txt', __DIR__.'/Ok/EventDispatcher.php');
 

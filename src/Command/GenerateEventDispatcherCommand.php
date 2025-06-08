@@ -22,7 +22,7 @@ class GenerateEventDispatcherCommand extends PlaisioCommand
   /**
    * @inheritdoc
    */
-  protected function configure()
+  protected function configure(): void
   {
     $this->setName('plaisio:generate-core-event-dispatcher')
          ->setDescription('Generates the code for the core\'s event dispatcher');
